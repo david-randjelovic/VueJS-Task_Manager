@@ -50,7 +50,7 @@ async function removeList() {
     await ListService.deleteList(payload);
     emit('list-deleted', props.list_id);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    //Do nothing - error will be reported in dashboard function
   }
 }
 </script>

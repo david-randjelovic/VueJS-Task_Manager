@@ -43,7 +43,7 @@ async function loadData() {
     const response = await ListService.createList(payload);
     emit('list-added', response.data);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    //Do nothing - error will be reported in dashboard function
   }
 }
 </script>

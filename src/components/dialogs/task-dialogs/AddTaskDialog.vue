@@ -51,7 +51,7 @@ async function createTask() {
     const response = await TaskService.createTask(payload);
     emit('task-added', response.data);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    //Do nothing - error will be reported in dashboard function
   }
 }
 </script>

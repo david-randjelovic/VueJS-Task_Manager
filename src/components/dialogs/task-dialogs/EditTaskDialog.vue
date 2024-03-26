@@ -59,7 +59,7 @@ async function editTask() {
     const response = await TaskService.editTask(payload);
     emit('task-edited', response.data);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    //Do nothing - error will be reported in dashboard function
   }
 }
 </script>

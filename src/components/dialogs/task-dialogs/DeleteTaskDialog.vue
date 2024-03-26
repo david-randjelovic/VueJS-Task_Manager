@@ -40,7 +40,7 @@ async function removeTask() {
     await TaskService.deleteTask(payload);
     emit('task-deleted', props.task_id);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    //Do nothing - error will be reported in dashboard function
   }
 }
 </script>
