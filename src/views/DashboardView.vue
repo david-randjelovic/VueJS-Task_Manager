@@ -8,13 +8,12 @@
                     <i class="pi pi-trash" @click="openDeleteListDialog(list.id)"></i>
                 </div>
             </div>
-            <div v-for="task in getList(list)" :key="task" class="drag-element" draggable="true" @dragstart="startDrag($event, task.id)">
+            <div v-for="task in getList(list)" :key="task" class="drag-element" draggable="true" @dragstart="startDrag($event, task.id)" @click="openViewTaskDialog(task.title, task.description)">
                 <div class="task-info">
                     <span>{{ trimText(task.title, 10) }}</span>
                     <span class="task-creation-date">Created at: {{ task.formattedDate }}</span>
                 </div>
                 <div class="toolbar">
-                    <i class="pi pi-eye" @click="openViewTaskDialog(task.title, task.description)"></i>
                     <i class="pi pi-pencil" @click="openEditTaskDialog(task.title, task.description, task.id)"></i>
                     <i class="pi pi-trash" @click="openDeleteTaskDialog(task.id)"></i>
                 </div>
