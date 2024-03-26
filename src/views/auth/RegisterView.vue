@@ -28,7 +28,12 @@
                 <InputText id="password" v-model="userForm.password" aria-describedby="password-help" type="password" @blur="$v.password.$touch()"/>
                 <span class="error-message" v-if="$v.password.$error">Password must be at least 6 numbers long.</span>
             </div>
-            <PrimeButton type="submit" class="register-button" label="Register" raised :disabled="$v.$invalid"/>
+            <div class="buttons">
+                <PrimeButton type="submit" class="register-button" label="Register" raised :disabled="$v.$invalid"/>
+                <router-link to="/auth/login" class="login-link">
+                    <span>Already have an account?</span>
+                </router-link>
+            </div>
         </div>
     </form>
    </div>
@@ -94,6 +99,13 @@ const registerUser = async () => {
     justify-content: center;
     align-items: center;
 }
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
 .upper-line {
     height: 20px;
     width: 100%;
@@ -129,8 +141,13 @@ form {
     width: 100px;
 }
 .register-button {
+    width: 100%;
     margin-top: 10px;
-    margin-bottom: 70px;
+    margin-bottom: 30px;
+}
+.login-link {
+    text-decoration: none;
+    color: var(--subheading-color);
 }
 .error-message {
     color: var(--error-color);
