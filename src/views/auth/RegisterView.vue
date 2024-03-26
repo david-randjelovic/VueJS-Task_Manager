@@ -20,7 +20,7 @@
             </div>
             <div class="form-item">
                 <label for="phone" class="faded">Phone</label>
-                <InputText id="phone" v-model="userForm.phone" aria-describedby="phone-help" @blur="$v.phone.$touch()"/>
+                <InputText id="phone" v-model="phoneNumber" aria-describedby="phone-help" @blur="$v.phone.$touch()"/>
                 <span class="error-message" v-if="$v.phone.$error">Phone must be at least 10 numbers long.</span>
             </div>
             <div class="form-item">
@@ -41,17 +41,43 @@
 
 <script setup>
 import { register } from '../../services/UserService.js';
-import { reactive, computed } from 'vue';
+import { reactive, computed, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email } from '@vuelidate/validators';
+import InfoService  from '../../services/InfoService.js';
+import { useToast } from 'primevue/usetoast';
 
+const toast = useToast();
 const router = useRouter();
+const phoneNumber = ref('');
 
+// Phone input custom validation
+onMounted(() => {
+    const inputElement = document.getElementById('phone');
+    inputElement.addEventListener('keydown', isNumericInput);
+    inputElement.addEventListener('paste', handlePaste);
+});
+
+const isNumericInput = (event) => {
+    const charCode = event.which ? event.which : event.keyCode;
+    if ((charCode > 31 && (charCode < 48 || charCode > 57)) && (charCode < 96 || charCode > 105) && charCode !== 8) {
+        event.preventDefault();
+    }
+};
+
+const handlePaste = (event) => {
+    const pasteData = (event.clipboardData || window.clipboardData).getData('text');
+    if (!/^\d+$/.test(pasteData)) {
+        event.preventDefault();
+    }
+};
+
+// Form functions
 const userForm = reactive({
     full_name: '',
     email: '',
-    phone: '',
+    phone: phoneNumber,
     password: '',
 });
 
@@ -87,7 +113,7 @@ const registerUser = async () => {
         });
         router.replace('/auth/login');
     } catch (error) {
-        console.error(error);
+        InfoService.showToast(toast, 'Error', 'Unable to register, something went wrong.', 'error');
     }
 };
 </script>

@@ -44,8 +44,8 @@ async function editList() {
     }
     const response = await ListService.editList(payload);
     emit('list-edited', response.data);
-  } catch (error) {
-    throw new Error(error);
+  } catch (e) {
+     //Do nothing - error will be reported in dashboard function
   }
 }
 </script>
