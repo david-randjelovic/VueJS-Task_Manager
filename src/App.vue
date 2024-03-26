@@ -17,6 +17,15 @@ import TheSidebar from './components/TheSidebar.vue';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 
+//Searchbar imports
+import { provide } from 'vue';
+import { useSearch } from './services/SearchService';
+
+const { searchTerm, setSearchTerm } = useSearch();
+
+provide('searchTerm', searchTerm);
+provide('setSearchTerm', setSearchTerm);
+
 const route = useRoute();
 
 const isAuthInUrl = computed(() => {

@@ -9,7 +9,10 @@
                 </div>
             </div>
             <div v-for="task in getList(list)" :key="task" class="drag-element" draggable="true" @dragstart="startDrag($event, task.id)">
-                <span>{{ trimText(task.title, 10) }}</span>
+                <div class="task-info">
+                    <span>{{ trimText(task.title, 10) }}</span>
+                    <span class="task-creation-date">Created at: {{ task.formattedDate }}</span>
+                </div>
                 <div class="toolbar">
                     <i class="pi pi-eye" @click="openViewTaskDialog(task.title, task.description)"></i>
                     <i class="pi pi-pencil" @click="openEditTaskDialog(task.title, task.description, task.id)"></i>
@@ -53,6 +56,7 @@ import {ref, onMounted} from 'vue';
 import { trimText } from '../utils/trim.js';
 import InfoService from '../services/InfoService.js'
 import { useToast } from 'primevue/usetoast';
+import { inject, computed } from 'vue';
 
 // Use
 const toast = useToast();
@@ -75,7 +79,8 @@ const isListBusy = ref(false);
 
 // Arrays
 let lists = ref([]);
-const tasks = ref([])
+const tasks = ref([]);
+const ftasks = ref([]);
 
 // Lifecycles
 onMounted(() => {
@@ -83,9 +88,28 @@ onMounted(() => {
     loadTasks();
 })
 
+// Searchbar
+const searchTerm = inject('searchTerm');
+
+const filteredTasks = computed(() => {
+  return ftasks.value.filter(task => task.title.toLowerCase().includes(searchTerm.value.toLowerCase()));
+});
+
+// Date formatter
+const formattedTasks = computed(() => {
+  return filteredTasks.value.map(task => {
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric'};
+    const formattedDate = new Date(task.created_at).toLocaleString(undefined, options);
+    return {
+      ...task,
+      formattedDate: formattedDate
+    };
+  });
+});
+
 // App Functions
 const getList = (list) => {
-    return tasks.value.filter((task) => task.list_id == list.id);
+    return formattedTasks.value.filter((task) => task.list_id == list.id);
 }
 
 const startDrag = (event, task) => {
@@ -159,17 +183,20 @@ const handleDeletedList = (list_id) => {
 
 const handleNewTask = (newTaskData) => {
     tasks.value.push(newTaskData);
+    ftasks.value.push(newTaskData);
     InfoService.showToast(toast, 'Success', 'Task has been created.', 'success');
 }
 
 const handleEditedTask = (newTaskData) => {
     let targetedTaskIndex = tasks.value.findIndex((task) => task.id === newTaskData.id)
     tasks.value[targetedTaskIndex] = newTaskData;
+    ftasks.value[targetedTaskIndex] = newTaskData;
     InfoService.showToast(toast, 'Success', 'Task has been edited.', 'success');
 }
 
 const handleDeletedTask = (task_id) => {
     tasks.value = tasks.value.filter((task) => task.id !== task_id);
+    ftasks.value = ftasks.value.filter((task) => task.id !== task_id);
     InfoService.showToast(toast, 'Success', 'Task has been deleted.', 'success');
 }
 
@@ -199,6 +226,7 @@ async function loadTasks() {
     try {
         const response = await TaskService.getTasks();
         tasks.value = response.data;
+        ftasks.value = response.data;
     } catch(e) {
         InfoService.showToast(toast, 'Error', 'Unable to load tasks, something went wrong.', 'error');
     }
@@ -247,6 +275,13 @@ i {
     color: var(--subheading-color);
     margin-bottom: 5px;
     cursor: pointer;
+}
+.task-info {
+    display: flex;
+    flex-direction: column;
+}
+.task-creation-date {
+    font-size: 12px;
 }
 .list-name {
     margin-bottom: 10px;

@@ -5,6 +5,8 @@ import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import ToastService from 'primevue/toastservice';
 import Toast from 'primevue/toast';
+import InputGroup from 'primevue/inputgroup';
+import InputGroupAddon from 'primevue/inputgroupaddon';
 
 // Theme relating things
 import 'primevue/resources/themes/aura-light-green/theme.css';
@@ -18,6 +20,8 @@ export default {
         app.component('InputText', InputText);
         app.component('TextArea', Textarea);
         app.component('PrimeToast', Toast);
+        app.component('InputGroup', InputGroup);
+        app.component('InputGroupAddon', InputGroupAddon);
         app.use(ToastService);
     },
 };

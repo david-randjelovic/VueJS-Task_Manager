@@ -4,15 +4,25 @@
       <div class="logo"></div>
       <span>David's task manager</span>
     </div>
-    <div class="profile-menu">
-      <div class="profile-icon"></div>
-      <i class="pi pi-angle-down"></i>
-    </div>
+    <div class="header-right-side">
+      <InputGroup>
+        <InputGroupAddon>
+          <i class="pi pi-search"></i>
+        </InputGroupAddon>
+        <InputText placeholder="Search..." @input="onSearch"/>
+      </InputGroup>
+  </div>
   </header>
 </template>
 
 <script setup>
+import { inject } from 'vue';
 
+const setSearchTerm = inject('setSearchTerm');
+
+const onSearch = (event) => {
+  setSearchTerm(event.target.value);
+};
 </script>
 
 <style scoped>
@@ -43,16 +53,8 @@
   width: 30px;
   height: 30px;
 }
-.profile-menu {
+.header-right-side {
   display: flex;
   align-items: center;
-  gap: 5px;
-  transition: 0.2s;
-  cursor: pointer;
-  padding: 0px 10px;
-  border-radius: 10px;
-}
-.profile-menu:hover {
-  background-color: var(--secondary-color);
 }
 </style>
