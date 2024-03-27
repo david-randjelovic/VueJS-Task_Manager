@@ -11,18 +11,70 @@
         </InputGroupAddon>
         <InputText placeholder="Search..." @input="onSearch"/>
       </InputGroup>
+      <div class="profile-menu" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" ></div>
+      <PrimeMenu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-full md:w-15rem">
+        <template #start>
+          <div class="menu-template">
+            <p class="menu-heading">Account</p>
+            <div class="profile-wrapper">
+              <div class="profile-picture"></div>
+              <div class="profile-info">
+                <span class="full-name">David Randjelovic</span>
+                <span class="email">randjelovic.david01@gmail.com</span>
+              </div>
+            </div>
+        </div>
+        </template>
+    </PrimeMenu>
   </div>
   </header>
 </template>
 
 <script setup>
-import { inject } from 'vue';
+import { inject, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const setSearchTerm = inject('setSearchTerm');
+
+const menu = ref();
+const items = ref([
+    {
+        label: 'Profile',
+        items: [
+            {
+                label: 'Settings',
+                icon: 'pi pi-cog'
+            },
+            {
+                label: 'Theme',
+                icon: 'pi pi-sun'
+            },
+            {
+                label: 'Logout',
+                icon: 'pi pi-sign-out',
+                command: () => {
+                  logOut();
+                }
+            }
+        ]
+    }
+]);
+
+const toggle = (event) => {
+    menu.value.toggle(event);
+};
 
 const onSearch = (event) => {
   setSearchTerm(event.target.value);
 };
+
+const logOut = () => {
+  router.replace('/auth/login');
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+}
 </script>
 
 <style scoped>
@@ -56,5 +108,45 @@ const onSearch = (event) => {
 .header-right-side {
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+.profile-menu {
+  background-image: url('../assets/profile-default.svg');
+  background-size: cover;
+  width: 45px !important;
+  height: 40px !important;
+  cursor: pointer;
+}
+.menu-template {
+  padding: 0px 14px 0px 14px;
+}
+.profile-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+.profile-picture {
+  margin-left: -5px;
+  width: 40px;
+  height: 40px;
+  background-image: url('../assets/profile-default.svg');
+  background-size: cover;
+}
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+.email {
+  font-size: 12px;
+  color: #94A3B8;
+}
+.menu-heading {
+  color: #94A3B8;
+  font-weight: 700;
+  padding: 12px 0px 12px 0px;
+  margin: 0px;
 }
 </style>

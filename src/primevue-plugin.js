@@ -7,6 +7,7 @@ import ToastService from 'primevue/toastservice';
 import Toast from 'primevue/toast';
 import InputGroup from 'primevue/inputgroup';
 import InputGroupAddon from 'primevue/inputgroupaddon';
+import Menu from 'primevue/menu';
 
 // Theme relating things
 import 'primevue/resources/themes/aura-light-green/theme.css';
@@ -22,6 +23,7 @@ export default {
         app.component('PrimeToast', Toast);
         app.component('InputGroup', InputGroup);
         app.component('InputGroupAddon', InputGroupAddon);
+        app.component('PrimeMenu', Menu);
         app.use(ToastService);
     },
 };

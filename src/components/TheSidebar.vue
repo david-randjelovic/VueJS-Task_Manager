@@ -25,14 +25,6 @@
                         </li>
                     </router-link>
                 </ul>
-                <ul @click="logOut()">
-                    <router-link class="sidebar-link" to="/auth/login">
-                        <li class="sidebar-item">
-                            <img class="sidebar-icon" src="../assets/sign-out-icon.svg">
-                            <span>Logout</span>
-                        </li>
-                    </router-link>
-                </ul>
             </nav>
             <div class="sidebar-footer">
                 <span class="footer-info">This is a showcase project</span>
@@ -44,10 +36,6 @@
 </template>
 
 <script setup>
-const logOut = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-}
 </script>
 
 <style scoped>

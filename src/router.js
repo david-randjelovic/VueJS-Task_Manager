@@ -32,6 +32,10 @@ const routes = [
     name: 'Login',
     component: Login,
   },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/auth/login'
+  }
 ];
 
 const router = createRouter({
