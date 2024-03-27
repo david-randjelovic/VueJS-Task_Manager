@@ -14,8 +14,8 @@
                     <span class="task-creation-date">Created at: {{ task.formattedDate }}</span>
                 </div>
                 <div class="toolbar">
-                    <i class="pi pi-pencil" @click="openEditTaskDialog(task.title, task.description, task.id)"></i>
-                    <i class="pi pi-trash" @click="openDeleteTaskDialog(task.id)"></i>
+                    <i class="pi pi-pencil" @click="openEditTaskDialog($event, task.title, task.description, task.id)"></i>
+                    <i class="pi pi-trash" @click="openDeleteTaskDialog($event, task.id)"></i>
                 </div>
             </div>
             <h5 class="add-task-button" @click="openAddTaskDialog(list.id)">+ Add new task</h5>
@@ -136,7 +136,8 @@ const openViewTaskDialog = (task_title, task_description) => {
     taskDescription.value = task_description;
 };
 
-const openDeleteTaskDialog = (id) => {
+const openDeleteTaskDialog = (event, id) => {
+    event.stopPropagation();
     deleteTaskDialogVisible.value = true;
     taskId.value = id;
 }
@@ -146,7 +147,8 @@ const openEditListDialog = (id) => {
     listId.value = id;
 }
 
-const openEditTaskDialog = (task_title, task_description, task_id) => {
+const openEditTaskDialog = (event, task_title, task_description, task_id) => {
+    event.stopPropagation();
     editTaskDialogVisible.value = true;
     taskTitle.value = task_title;
     taskDescription.value = task_description;
