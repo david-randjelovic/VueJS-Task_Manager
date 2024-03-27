@@ -19,8 +19,8 @@
             <div class="profile-wrapper">
               <div class="profile-picture"></div>
               <div class="profile-info">
-                <span class="full-name">David Randjelovic</span>
-                <span class="email">randjelovic.david01@gmail.com</span>
+                <span class="full-name">{{ userInfo.name }}</span>
+                <span class="email">{{ userInfo.email }}</span>
               </div>
             </div>
         </div>
@@ -35,7 +35,7 @@ import { inject, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-
+const userInfo = JSON.parse(localStorage.getItem('user'));
 const setSearchTerm = inject('setSearchTerm');
 
 const menu = ref();
