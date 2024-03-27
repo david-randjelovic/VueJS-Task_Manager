@@ -28,7 +28,7 @@
     </PrimeMenu>
   </div>
   </header>
-  <ProfileSettingsDialog :visible="accountSettingsDialogVisible" @update:visible="accountSettingsDialogVisible = $event"></ProfileSettingsDialog>
+  <ProfileSettingsDialog :visible="accountSettingsDialogVisible" :userInfo="userInfo" @update:visible="accountSettingsDialogVisible = $event"></ProfileSettingsDialog>
 </template>
 
 <script setup>
@@ -123,6 +123,7 @@ const logOut = () => {
 .profile-menu {
   background-image: url('../assets/profile-default.svg');
   background-size: cover;
+  border-radius: 50%;
   width: 45px !important;
   height: 40px !important;
   cursor: pointer;
@@ -142,6 +143,7 @@ const logOut = () => {
   width: 40px;
   height: 40px;
   background-image: url('../assets/profile-default.svg');
+  border-radius: 50%;
   background-size: cover;
 }
 .profile-info {

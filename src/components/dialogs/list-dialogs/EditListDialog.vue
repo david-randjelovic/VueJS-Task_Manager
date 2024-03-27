@@ -1,5 +1,5 @@
 <template>
-    <Dialog :closable="true" modal @update:visible="hideDialog">
+    <Dialog :visible="visible" :closable="true" modal @update:visible="hideDialog">
       <template #header>
         <h3>Enter new list name</h3>
       </template>
@@ -8,6 +8,7 @@
         <PrimeButton label="Finish Editing" type="submit" />
       </form>
     </Dialog>
+    <PrimeToast position="bottom-right"/>
 </template>
 
 <script setup>
@@ -15,16 +16,21 @@ import { ref } from 'vue';
 import { defineEmits, defineProps } from 'vue';
 import Dialog from 'primevue/dialog';
 import ListService from '../../../services/ListService.js'
+import { useToast } from 'primevue/usetoast';
+import InfoService from '@/services/InfoService';
+
+const toast = useToast();
 
 const props = defineProps({
-    list_id: Number,
+  visible: Boolean,
+  list_id: Number,
 })
 
 const list = ref({
   name: '',
 });
 
-const emit = defineEmits(['update:visible', 'list-added']);
+const emit = defineEmits(['update:visible', 'list-edited']);
 
 const hideDialog = () => {
   emit('update:visible', false);
@@ -45,7 +51,7 @@ async function editList() {
     const response = await ListService.editList(payload);
     emit('list-edited', response.data);
   } catch (e) {
-     //Do nothing - error will be reported in dashboard function
+    InfoService.showToast(toast, 'Error', 'Oops, something went wrong.', 'error');
   }
 }
 </script>

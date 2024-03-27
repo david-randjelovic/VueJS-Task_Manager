@@ -24,6 +24,10 @@
 import { defineEmits, defineProps } from 'vue';
 import Dialog from 'primevue/dialog';
 import ListService from '../../../services/ListService.js';
+import { useToast } from 'primevue/usetoast';
+import InfoService from '@/services/InfoService';
+
+const toast = useToast();
 
 const props = defineProps({
   visible: Boolean,
@@ -50,7 +54,7 @@ async function removeList() {
     await ListService.deleteList(payload);
     emit('list-deleted', props.list_id);
   } catch (error) {
-    //Do nothing - error will be reported in dashboard function
+    InfoService.showToast(toast, 'Error', 'Oops, something went wrong.', 'error');
   }
 }
 </script>

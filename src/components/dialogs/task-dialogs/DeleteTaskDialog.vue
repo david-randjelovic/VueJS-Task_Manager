@@ -8,6 +8,7 @@
         <PrimeButton label="No" type="button" @click="hideDialog"/>
       </form>
     </Dialog>
+    <PrimeToast position="bottom-right"/>
 </template>
 
 
@@ -15,6 +16,10 @@
 import { defineEmits, defineProps } from 'vue';
 import Dialog from 'primevue/dialog';
 import TaskService from '../../../services/TaskService.js';
+import { useToast } from 'primevue/usetoast';
+import InfoService from '@/services/InfoService';
+
+const toast = useToast();
 
 const props = defineProps({
   visible: Boolean,
@@ -40,7 +45,7 @@ async function removeTask() {
     await TaskService.deleteTask(payload);
     emit('task-deleted', props.task_id);
   } catch (error) {
-    //Do nothing - error will be reported in dashboard function
+    InfoService.showToast(toast, 'Error', 'Oops, something went wrong.', 'error');
   }
 }
 </script>

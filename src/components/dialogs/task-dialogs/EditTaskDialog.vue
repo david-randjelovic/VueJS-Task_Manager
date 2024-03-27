@@ -9,6 +9,7 @@
         <PrimeButton label="Edit Task" type="submit" />
       </form>
     </Dialog>
+    <PrimeToast position="bottom-right"/>
 </template>
 
 <script setup>
@@ -16,7 +17,10 @@ import { ref, watch } from 'vue';
 import { defineProps, defineEmits } from 'vue';
 import TaskService from '../../../services/TaskService.js';
 import Dialog from 'primevue/dialog';
+import { useToast } from 'primevue/usetoast';
+import InfoService from '@/services/InfoService';
 
+const toast = useToast();
 
 const props = defineProps({
   visible: Boolean,
@@ -59,7 +63,7 @@ async function editTask() {
     const response = await TaskService.editTask(payload);
     emit('task-edited', response.data);
   } catch (error) {
-    //Do nothing - error will be reported in dashboard function
+    InfoService.showToast(toast, 'Error', 'Oops, something went wrong.', 'error');
   }
 }
 </script>

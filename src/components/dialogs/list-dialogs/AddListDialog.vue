@@ -1,5 +1,5 @@
 <template>
-    <Dialog :closable="true" modal @update:visible="hideDialog">
+    <Dialog :visible="visible" :closable="true" modal @update:visible="hideDialog">
       <template #header>
         <h3>Add New List</h3>
       </template>
@@ -12,13 +12,21 @@
 
 <script setup>
 import { ref } from 'vue';
-import { defineEmits } from 'vue';
+import { defineEmits, defineProps } from 'vue';
 import Dialog from 'primevue/dialog';
 import ListService from '../../../services/ListService.js'
+import { useToast } from 'primevue/usetoast';
+import InfoService from '@/services/InfoService';
+
+const toast = useToast();
 
 const list = ref({
   name: '',
 });
+
+defineProps({
+  visible: Boolean,
+})
 
 const emit = defineEmits(['update:visible', 'list-added']);
 
@@ -43,7 +51,7 @@ async function loadData() {
     const response = await ListService.createList(payload);
     emit('list-added', response.data);
   } catch (error) {
-    //Do nothing - error will be reported in dashboard function
+    InfoService.showToast(toast, 'Error', 'Oops, something went wrong.', 'error');
   }
 }
 </script>
