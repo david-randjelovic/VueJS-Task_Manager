@@ -119,9 +119,9 @@ const startDrag = (event, task) => {
 
 const onDrop = (event, list) => {
     const taskID = event.dataTransfer.getData('taskID');
-    const task = tasks.value.find((task) => task.id == taskID);
-    task.list_id = list;
-    updateTasksPosition(task.id, list);
+    const ftask = ftasks.value.find((task) => task.id == taskID);
+    ftask.list_id = list;
+    updateTasksPosition(ftask.id, list);
 }
 
 // Dialogs
@@ -183,7 +183,6 @@ const handleDeletedList = (list_id) => {
 }
 
 const handleNewTask = (newTaskData) => {
-    tasks.value.push(newTaskData);
     ftasks.value.push(newTaskData);
     InfoService.showToast(toast, 'Success', 'Task has been created.', 'success');
 }
