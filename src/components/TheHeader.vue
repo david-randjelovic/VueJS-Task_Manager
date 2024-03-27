@@ -28,16 +28,19 @@
     </PrimeMenu>
   </div>
   </header>
+  <ProfileSettingsDialog :visible="accountSettingsDialogVisible" @update:visible="accountSettingsDialogVisible = $event"></ProfileSettingsDialog>
 </template>
 
 <script setup>
 import { inject, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import ProfileSettingsDialog from './dialogs/setting-dialogs/ProfileSettingsDialog.vue';
 
 const router = useRouter();
 const userInfo = JSON.parse(localStorage.getItem('user'));
 const setSearchTerm = inject('setSearchTerm');
 
+const accountSettingsDialogVisible = ref(false);
 const menu = ref();
 const items = ref([
     {
@@ -45,7 +48,10 @@ const items = ref([
         items: [
             {
                 label: 'Settings',
-                icon: 'pi pi-cog'
+                icon: 'pi pi-cog',
+                command: () => {
+                  openProfileSettingsDialog()
+                }
             },
             {
                 label: 'Theme',
@@ -61,6 +67,10 @@ const items = ref([
         ]
     }
 ]);
+
+const openProfileSettingsDialog = () => {
+    accountSettingsDialogVisible.value = true;
+}
 
 const toggle = (event) => {
     menu.value.toggle(event);
