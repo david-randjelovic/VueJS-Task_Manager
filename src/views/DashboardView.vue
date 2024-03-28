@@ -4,8 +4,8 @@
             <div class="list-header">
                 <h5 class="list-name">{{ trimText(list.name, 20) }}</h5>
                 <div class="list-header-tools">
-                    <i class="pi pi-pencil" @click="openEditListDialog(list.id)"></i>
-                    <i class="pi pi-trash" @click="openDeleteListDialog(list.id)"></i>
+                    <i class="pi pi-pencil icon-hidden" @click="openEditListDialog(list.id)"></i>
+                    <i class="pi pi-trash icon-hidden" @click="openDeleteListDialog(list.id)"></i>
                 </div>
             </div>
             <div v-for="task in getList(list)" :key="task" class="drag-element" draggable="true" @dragstart="startDrag($event, task.id)" @click="openViewTaskDialog(task.title, task.description)">
@@ -14,8 +14,8 @@
                     <span class="task-creation-date">Created at: {{ task.formattedDate }}</span>
                 </div>
                 <div class="toolbar">
-                    <i class="pi pi-pencil" @click="openEditTaskDialog($event, task.title, task.description, task.id)"></i>
-                    <i class="pi pi-trash" @click="openDeleteTaskDialog($event, task.id)"></i>
+                    <i class="pi pi-pencil icon-hidden" @click="openEditTaskDialog($event, task.title, task.description, task.id)"></i>
+                    <i class="pi pi-trash icon-hidden" @click="openDeleteTaskDialog($event, task.id)"></i>
                 </div>
             </div>
             <h5 class="add-task-button" @click="openAddTaskDialog(list.id)">+ Add new task</h5>
@@ -305,10 +305,20 @@ i {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    cursor: pointer;
 }
 .list-header-tools {
     display: flex;
     gap: 10px;
     color: var(--subheading-color);
+}
+.icon-hidden {
+    visibility: hidden;
+}
+.drag-element:hover .icon-hidden {
+    visibility: visible;
+}
+.list-header:hover .icon-hidden {
+    visibility: visible;
 }
 </style>
