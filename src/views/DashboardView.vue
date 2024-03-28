@@ -253,6 +253,7 @@ async function loadTasks() {
 .drag-element {
     background-color: var(--primary-color);
     color: #fff;
+    border-radius: 5px;
     padding: 5px;
     margin-bottom: 10px;
     cursor: grabbing;
