@@ -5,11 +5,12 @@
       </template>
       <form class="dialog-form" @submit.prevent="saveSettings">
         <div class="profile-picture-wrapper">
-            <div class="profile-picture"></div>
-            <div class="overlay">
+            <div class="profile-picture" :style="{ backgroundImage: 'url(' + imagePreview + ')' }"></div>
+            <div class="overlay" @click="openFileDialog">
                 Upload picture
                 <i class="pi pi-upload"></i>
             </div>
+            <input type="file" id="fileInput" style="display: none" @change="previewImage" />
         </div>
         <InputGroup>
         <InputGroupAddon>
@@ -54,10 +55,11 @@
 
 <script setup>
 import Dialog from 'primevue/dialog';
-import { defineEmits, defineProps } from 'vue';
+import { defineEmits, defineProps, ref } from 'vue';
 import UserService from '../../../services/UserService.js';
 import { useToast } from 'primevue/usetoast';
 import InfoService from '@/services/InfoService';
+import profileDefault from '@/assets/profile-default.svg';
 
 const toast = useToast();
 
@@ -66,7 +68,9 @@ const props = defineProps({
     userInfo: Object,
 })
 
-const emit = defineEmits(['update:visible']);
+const imagePreview = ref(props.userInfo.profile_picture ? `${process.env.VUE_APP_BACKEND_STORAGE_API_URL + props.userInfo.profile_picture}` : profileDefault);
+
+const emit = defineEmits(['update:visible', 'picture-uploaded']);
 
 const account_settings = {
     email: props.userInfo.email,
@@ -77,10 +81,36 @@ const account_settings = {
     location: props.userInfo.location,
 }
 
-console.log(props.userInfo);
+const hideDialog = () => {
+  emit('update:visible', false);
+};
 
-async function saveSettings () {
-    const payload = {
+// Picture upload
+const openFileDialog = () => {
+  const fileInput = document.getElementById('fileInput');
+  if(fileInput) {
+    fileInput.click();
+  }
+};
+
+const previewImage = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imagePreview.value = e.target.result
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+const saveSettings = () => {
+  saveProfileInfo();
+  saveProfilePicture();
+}
+
+async function saveProfileInfo () {
+  const payload = {
         department: account_settings.department,
         email: account_settings.email,
         job_title: account_settings.job_title,
@@ -97,9 +127,22 @@ async function saveSettings () {
     }
 }
 
-const hideDialog = () => {
-  emit('update:visible', false);
-};
+async function saveProfilePicture () {
+  const fileInput = document.getElementById('fileInput');
+  if (fileInput.files.length > 0) {
+    const formData = new FormData();
+    formData.append('image', fileInput.files[0]);
+    try {
+      const response = await UserService.updateUserProfilePicture(formData);
+      let localStorageObject = JSON.parse(localStorage.getItem('user'));
+      localStorageObject.profile_picture = response.data.path;
+      localStorage.setItem('user', JSON.stringify(localStorageObject));
+      emit('picture-uploaded', response.data.path);
+    } catch(e) {
+      InfoService.showToast(toast, 'Error', 'Oops, something went wrong.', 'error');
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -116,7 +159,6 @@ const hideDialog = () => {
 .profile-picture {
     height: 200px;
     width: 200px;
-    background-image: url('../../../assets/profile-default.svg');
     border-radius: 50%;
     background-size: cover;
 }
@@ -136,7 +178,6 @@ const hideDialog = () => {
 .profile-picture {
     height: 100%;
     width: 100%;
-    background-image: url('../../../assets/profile-default.svg');
     border-radius: 50%;
     background-size: cover;
     transition: opacity 0.3s ease;

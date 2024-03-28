@@ -12,6 +12,12 @@ export const login = (userData) => {
 
 export default {
     updateUser(user_id, data) {
-        return http.patch(`${process.env.VUE_APP_API_URL}user/${user_id}`, data);
+        return http.patch(`${process.env.VUE_APP_API_URL}user`, data);
+    },
+    updateUserProfilePicture(data) {
+        return http.post(`${process.env.VUE_APP_API_URL}user/upload-profile-picture`, data);
+    },
+    getUserProfilePicture() {
+        return http.get(`${process.env.VUE_APP_API_URL}user/profile-picture`);
     }
 }
