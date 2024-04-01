@@ -1,0 +1,14 @@
+:root {
+    --primary-color: #22272b !important;
+    --subheading-color: #B6C2CF;
+    --secondary-color: #d6d6d6;
+    --hover-color: rgba(89, 193, 147, 0.5);
+    --error-color: #b0090a;
+    --background-color: #1d2125;
+    --text-color: #B6C2CF !important;
+    --line-color: #59c193;
+    --list-color: #161a1d;
+    --addon-background-color: transparent;
+    --p-focus-ring-color: #fff !important;
+}
+  

@@ -149,6 +149,7 @@ form {
     align-items: center;
     margin-bottom: 25px;
     margin-top: 40px;
+    color: var(--text-color);
 }
 .faded {
     color: var(--subheading-color);

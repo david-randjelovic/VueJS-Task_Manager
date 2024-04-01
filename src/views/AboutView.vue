@@ -29,10 +29,11 @@ const goToDashboard = () => {
 
 <style scoped>
 span {
-    color: var(--primary-color);
+    color: var(--line-color);
 }
 .about-wrapper {
     padding: 20px;
+    color: var(--text-color);
 }
 .about-paragraph {
     max-width: 1200px;

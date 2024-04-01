@@ -2,17 +2,17 @@
   <header class="app-header">
     <div class="logo-wrapper">
       <div class="logo"></div>
-      <span>David's task manager</span>
+      <span class="heading">David's task manager</span>
     </div>
     <div class="header-right-side">
       <InputGroup>
         <InputGroupAddon>
           <i class="pi pi-search"></i>
         </InputGroupAddon>
-        <InputText placeholder="Search..." @input="onSearch"/>
+        <InputText class="search-box" placeholder="Search..." @input="onSearch"/>
       </InputGroup>
-      <div class="profile-menu" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" :style="{ backgroundImage: 'url('+ profilePictureUrl +')' }"></div>
-      <PrimeMenu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-full md:w-15rem">
+      <div class="profile-menu" @click="toggle" aria-haspopup="true" aria-controls="overlay-menu" :style="{ backgroundImage: 'url('+ profilePictureUrl +')' }"></div>
+      <PrimeMenu ref="menu" id="overlay-menu" :model="items" :popup="true" class="w-full md:w-15rem">
         <template #start>
           <div class="menu-template">
             <p class="menu-heading">Account</p>
@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { inject, ref } from 'vue';
+import { inject, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import ProfileSettingsDialog from './dialogs/setting-dialogs/ProfileSettingsDialog.vue';
 import profileDefault from '@/assets/profile-default.svg';
@@ -43,6 +43,10 @@ const router = useRouter();
 
 const userInfo = JSON.parse(localStorage.getItem('user'));
 const setSearchTerm = inject('setSearchTerm');
+const defaultTheme = 'light';
+let themeIcon = ref('pi pi-sun');
+const storedTheme = localStorage.getItem('theme');
+const theme = ref(storedTheme || defaultTheme);
 
 const accountSettingsDialogVisible = ref(false);
 let profilePictureUrl = ref(userInfo && userInfo.profile_picture ? `${process.env.VUE_APP_BACKEND_STORAGE_API_URL + userInfo.profile_picture}` : profileDefault);
@@ -61,7 +65,12 @@ const items = ref([
             },
             {
                 label: 'Theme',
-                icon: 'pi pi-sun'
+                icon: themeIcon,
+                command: () => {
+                  setTimeout(() => { // Timeout is here in order for dialog closing animation to be smooth
+                    toggleTheme();
+                  },100)
+                }
             },
             {
                 label: 'Logout',
@@ -95,6 +104,19 @@ const logOut = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
 }
+
+const applyTheme = (newValue) => {
+  const href = newValue === 'dark' ? '/themes/dark-theme.css' : '/themes/light-theme.css';
+  themeIcon.value = newValue === 'dark' ? 'pi pi-moon' : 'pi pi-sun';
+  document.getElementById('theme-style').setAttribute('href', href);
+  localStorage.setItem('theme', newValue);
+};
+
+watch(theme, applyTheme, { immediate: true });
+
+const toggleTheme = () => {
+  theme.value = theme.value === 'light' ? 'dark' : 'light';
+}
 </script>
 
 <style scoped>
@@ -103,7 +125,7 @@ const logOut = () => {
   justify-content: space-between;
   height: 70px;
   /* background-color: #f4f4f4; */
-  border-bottom: 1px solid var(--secondary-color);
+  border-bottom: 1px solid var(--line-color);;
   padding: 10px 20px 10px 20px;
 }
 .logo-wrapper {
@@ -167,5 +189,20 @@ const logOut = () => {
   font-weight: 700;
   padding: 12px 0px 12px 0px;
   margin: 0px;
+}
+.heading {
+  color: var(--text-color);
+}
+input {
+  background-color: transparent !important;
+}
+.p-inputtext:focus {
+  border: 1px solid #fff;
+}
+.p-inputgroup-addon {
+  background-color: transparent !important;
+}
+.pi, .pi-search {
+  color: var(--text-color) !important;
 }
 </style>

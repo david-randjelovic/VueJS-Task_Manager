@@ -1,5 +1,5 @@
 <template>
-    <Dialog :visible="visible" :closable="true" modal @update:visible="hideDialog">
+    <Dialog :visible="visible" :closable="true" modal @update:visible="hideDialog" styleClass="customDialog">
       <template #header>
         <h3>Add New List</h3>
       </template>

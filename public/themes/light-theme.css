@@ -1,0 +1,12 @@
+:root {
+  --primary-color: #59c193;
+  --subheading-color: #626F86;
+  --secondary-color: #d6d6d6;
+  --hover-color: #ecf0f1;
+  --error-color: #b0090a;
+  --background-color: #fff;
+  --text-color: #000;
+  --line-color: #59c193;
+  --list-color: #ecf0f1;
+  --addon-background-color: #fff;
+}

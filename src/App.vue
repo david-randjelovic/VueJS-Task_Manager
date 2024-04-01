@@ -34,17 +34,10 @@ const isAuthInUrl = computed(() => {
 </script>
 
 <style>
-:root {
-  --primary-color: #59c193;
-  --subheading-color: #626F86;
-  --secondary-color: #d6d6d6;
-  --hover-color: #d6d6d6;
-  --error-color: #b0090a;
-}
-
 body {
   margin: 0px;
   padding: 0px;
+  background-color: var(--background-color);
 }
 h6, h5 {
     margin: 0px;
@@ -62,5 +55,47 @@ h6, h5 {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+.p-dialog-header, .p-dialog-content {
+  background-color: var(--background-color) !important;
+  color: var(--text-color);
+}
+.p-dialog {
+  background-color: var(--background-color) !important;
+  border: 0px;
+}
+.p-inputtext {
+  background-color: var(--background-color) !important;
+  border: var(--secondary-color) 1px solid;
+  color: var(--text-color);
+}
+.p-inputtext:focus {
+  color: var(--text-color);
+}
+.p-inputgroup-addon {
+  background-color: var(--addon-background-color);
+  color: var(--text-color);
+}
+.p-menu-overlay {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+}
+.p-submenu-header {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+}
+.p-menuitem-text {
+  color: var(--text-color) !important;
+}
+.p-menuitem-link:hover {
+  background-color: var(--list-color) !important;
+}
+.p-menuitem-content:hover {
+  background-color: var(--list-color) !important;
+  transition: 0s !important;
+}
+.p-menuitem-content {
+  background-color: var(--background-color) !important;
+  transition: 0.2s !important;
 }
 </style>

@@ -47,7 +47,7 @@
     display: inline-block;
     width: 250px;
     height: 92.4vh;
-    border-right: 1px solid var(--secondary-color);
+    border-right: 1px solid var(--line-color);
     padding: 30px 30px;
 }
 .sidebar-header {
@@ -56,7 +56,7 @@
     align-items: center;
     gap: 5px;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--secondary-color);
+    border-bottom: 1px solid var(--line-color);
 }
 .project-icon {
     background-image: url('../assets/project-default.svg');
@@ -76,12 +76,12 @@
     padding-bottom: 5px;
 }
 .sidebar-item:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--hover-color);
     cursor: pointer;
     border-radius: 5px;
 }
 .sidebar-link {
-    color: #000018;
+    color: var(--text-color);
     text-decoration: none;
 }
 .sidebar-icon {
@@ -98,9 +98,17 @@ ul {
 }
 .sidebar-footer {
     text-align: center;
+    color: var(--text-color);
 }
 .footer-info {
     font-size: 12px;
     color: var(--subheading-color);
 }
+.project-name {
+    color: var(--text-color);
+}
+.project-type {
+    color: var(--text-color);
+}
+
 </style>

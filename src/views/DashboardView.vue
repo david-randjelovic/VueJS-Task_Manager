@@ -243,7 +243,7 @@ async function loadTasks() {
 .drop-zone {
     width: 300px;
     margin: 20px;
-    background-color: #ecf0f1;
+    background-color: var(--list-color);
     padding: 10px 10px 1px 10px;
     min-height: 10px;
     border-radius: 10px;
