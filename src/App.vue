@@ -98,4 +98,7 @@ h6, h5 {
   background-color: var(--background-color) !important;
   transition: 0.2s !important;
 }
+.pi {
+  color: var(--text-color) !important;
+}
 </style>

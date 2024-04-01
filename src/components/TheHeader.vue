@@ -42,11 +42,10 @@ import profileDefault from '@/assets/profile-default.svg';
 const router = useRouter();
 
 const userInfo = JSON.parse(localStorage.getItem('user'));
-const setSearchTerm = inject('setSearchTerm');
-const defaultTheme = 'light';
-let themeIcon = ref('pi pi-sun');
 const storedTheme = localStorage.getItem('theme');
-const theme = ref(storedTheme || defaultTheme);
+const setSearchTerm = inject('setSearchTerm');
+let themeIcon = ref('pi pi-sun');
+const theme = ref(storedTheme || 'light');
 
 const accountSettingsDialogVisible = ref(false);
 let profilePictureUrl = ref(userInfo && userInfo.profile_picture ? `${process.env.VUE_APP_BACKEND_STORAGE_API_URL + userInfo.profile_picture}` : profileDefault);

@@ -10,12 +10,22 @@
          <div class="form-items">
              <div class="form-item">
                  <label for="email" class="faded">E-mail</label>
-                 <InputText id="email" v-model="userForm.email" aria-describedby="email-help" @blur="$v.email.$touch()"/>
+                 <InputGroup>
+                    <InputGroupAddon>
+                    <i class="pi pi-envelope"></i>
+                    </InputGroupAddon>
+                    <InputText id="email" v-model="userForm.email" aria-describedby="email-help" @blur="$v.email.$touch()"/>
+                </InputGroup>
                  <span class="error-message" v-if="$v.email.$error">Email not valid.</span>
              </div>
              <div class="form-item">
                  <label for="password" class="faded">Password</label>
-                 <InputText id="password" v-model="userForm.password" aria-describedby="password-help" type="password" @blur="$v.password.$touch()"/>
+                 <InputGroup>
+                    <InputGroupAddon>
+                    <i class="pi pi-lock"></i>
+                    </InputGroupAddon>
+                    <InputText id="password" v-model="userForm.password" aria-describedby="password-help" type="password" @blur="$v.password.$touch()"/>
+                </InputGroup>
                  <span class="error-message" v-if="$v.password.$error">Password must be at least 6 numbers long.</span>
              </div>
              <div class="buttons">
@@ -79,6 +89,9 @@ const loginUser = async () => {
 </script>
 
 <style scoped>
+.pi .pi-envelope {
+    color: var(--text-color) !important;
+}
 .login-wrapper {
     height: 100vh;
     display: flex;

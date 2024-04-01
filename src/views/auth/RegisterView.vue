@@ -10,22 +10,42 @@
         <div class="form-items">
             <div class="form-item">
                 <label for="username" class="faded">Full Name</label>
-                <InputText id="username" v-model="userForm.full_name" aria-describedby="username-help" @blur="$v.full_name.$touch()"/>
+                <InputGroup>
+                    <InputGroupAddon>
+                    <i class="pi pi-user"></i>
+                    </InputGroupAddon>
+                    <InputText id="username" v-model="userForm.full_name" aria-describedby="username-help" @blur="$v.full_name.$touch()"/>
+                </InputGroup>
                 <span class="error-message" v-if="$v.full_name.$error">Name is required.</span>
             </div>
             <div class="form-item">
                 <label for="email" class="faded">E-mail</label>
-                <InputText id="email" v-model="userForm.email" aria-describedby="email-help" @blur="$v.email.$touch()"/>
+                <InputGroup>
+                    <InputGroupAddon>
+                    <i class="pi pi-envelope"></i>
+                    </InputGroupAddon>
+                    <InputText id="email" v-model="userForm.email" aria-describedby="email-help" @blur="$v.email.$touch()"/>
+                </InputGroup>
                 <span class="error-message" v-if="$v.email.$error">Email not valid.</span>
             </div>
             <div class="form-item">
                 <label for="phone" class="faded">Phone</label>
-                <InputText id="phone" v-model="phoneNumber" aria-describedby="phone-help" @blur="$v.phone.$touch()"/>
+                <InputGroup>
+                    <InputGroupAddon>
+                    <i class="pi pi-phone"></i>
+                    </InputGroupAddon>
+                    <InputText id="phone" v-model="phoneNumber" aria-describedby="phone-help" @blur="$v.phone.$touch()"/>
+                </InputGroup>
                 <span class="error-message" v-if="$v.phone.$error">Phone must be at least 10 numbers long.</span>
             </div>
             <div class="form-item">
                 <label for="password" class="faded">Password</label>
-                <InputText id="password" v-model="userForm.password" aria-describedby="password-help" type="password" @blur="$v.password.$touch()"/>
+                <InputGroup>
+                    <InputGroupAddon>
+                    <i class="pi pi-lock"></i>
+                    </InputGroupAddon>
+                    <InputText id="password" v-model="userForm.password" aria-describedby="password-help" type="password" @blur="$v.password.$touch()"/>
+                </InputGroup>
                 <span class="error-message" v-if="$v.password.$error">Password must be at least 6 numbers long.</span>
             </div>
             <div class="buttons">
