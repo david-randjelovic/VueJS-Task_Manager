@@ -152,4 +152,7 @@ form {
 .error-message {
     color: var(--error-color);
 }
+label {
+    margin-bottom: 10px;
+}
 </style>
